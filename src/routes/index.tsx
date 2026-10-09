@@ -349,12 +349,14 @@ function HomePage() {
               conversation. There's a place for everyone.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Link
-                to="https://github.com/zyphor-os/zyphor-os-desktop"
+              <a
+                href="https://github.com/zyphor-os/zyphor-os-desktop"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn-brand btn-brand-hover inline-flex items-center gap-2 rounded-lg px-8 py-3 text-sm font-semibold"
               >
                 Contribute
-              </Link>
+              </a>
             </div>
           </div>
         </div>
