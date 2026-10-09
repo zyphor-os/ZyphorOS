@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Download,
   HardDrive,
@@ -20,6 +20,78 @@ import { cn } from "@/lib/utils";
 import { useZyphorDownloads } from "@/lib/useZyphorDownloads";
 import { useScrollReveal } from "@/lib/useScrollReveal";
 
+interface SourceForgeProject {
+  id: string;
+  slug: string;
+  title: string;
+  url: string;
+}
+
+const SOURCEFORGE_PROJECTS: SourceForgeProject[] = [
+  {
+    id: "project-1",
+    slug: "zyphor-os-1-legacy",
+    title: "Zyphor OS 1 Legacy (End Of Life)",
+    url: "https://sourceforge.net/projects/zyphor-os-1-legacy",
+  },
+  {
+    id: "project-2",
+    slug: "zyphor-os-2-ada-lovelace",
+    title: 'Zyphor OS 2 "Ada Lovelace" LTS Reforged',
+    url: "https://sourceforge.net/projects/zyphor-os-2-ada-lovelace/",
+  },
+  {
+    id: "project-3",
+    slug: "zyphor-os-3-bethany-lts",
+    title: 'Zyphor OS 3 "Bethany" LTS',
+    url: "https://sourceforge.net/projects/zyphor-os-3-bethany-lts/",
+  },
+];
+
+const START_DATE = "2026-03-30";
+
+async function fetchTotal(slug: string): Promise<number> {
+  const endDate = new Date().toISOString().split("T")[0];
+  const apiUrl =
+    `https://sourceforge.net/projects/${slug}/files/stats/json` +
+    `?start_date=${START_DATE}&end_date=${endDate}&period=monthly&os_by_country=false`;
+
+  const response = await fetch(apiUrl);
+  if (!response.ok) throw new Error("SourceForge API request failed");
+  const data = await response.json();
+
+  if (!Array.isArray(data.downloads)) return 0;
+  return data.downloads.reduce(
+    (total: number, item: unknown[]) => total + (Number(item[1]) || 0),
+    0,
+  );
+}
+
+/** Returns total downloads per project slug: number, null (loading) or "error". */
+function useSourceForgeDownloads() {
+  const [counts, setCounts] = useState<Record<string, number | null | "error">>(() =>
+    Object.fromEntries(SOURCEFORGE_PROJECTS.map((p) => [p.slug, null])),
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    SOURCEFORGE_PROJECTS.forEach(async (p) => {
+      try {
+        const total = await fetchTotal(p.slug);
+        if (!cancelled) setCounts((c) => ({ ...c, [p.slug]: total }));
+      } catch (error) {
+        console.error(`Unable to load SourceForge statistics for ${p.slug}:`, error);
+        if (!cancelled) setCounts((c) => ({ ...c, [p.slug]: "error" }));
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return counts;
+}
+
 export const Route = createFileRoute("/download")({
   head: () => ({
     meta: [
@@ -35,7 +107,8 @@ export const Route = createFileRoute("/download")({
 });
 
 function DownloadPage() {
-  const { desktopLatest, serverLatest, adaTags, legacyTags, state } = useZyphorDownloads();
+  const { adaTags, legacyTags, state } = useZyphorDownloads();
+  const downloadCounts = useSourceForgeDownloads();
   useScrollReveal();
 
   return (
@@ -43,7 +116,7 @@ function DownloadPage() {
       <PageHeader
         eyebrow="Download & Releases"
         title="Get Zyphor OS."
-        description="Choose the edition that fits your workflow. From the flagship Desktop edition to the lightweight Server and Minimal bases."
+        description="Pick the Zyphor OS release that fits you. Every release is hosted on SourceForge, with live download counts."
       />
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 space-y-24">
@@ -65,42 +138,18 @@ function DownloadPage() {
         <div className="reveal">
           <div className="flex items-center gap-3 mb-8">
             <Download className="h-6 w-6 text-brand" />
-            <h2 className="text-3xl font-bold">Latest Releases</h2>
+            <h2 className="text-3xl font-bold">Downloads</h2>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <EditionCard
-              title="Zyphor OS Desktop"
-              description="The flagship experience. A beautiful, intuitive, and powerful desktop environment for daily drivers and developers."
-              icon={Monitor}
-              version={desktopLatest}
-              loading={state === "loading"}
-              url="https://github.com/zyphor-os/zyphor-os-desktop"
-            />
-            <EditionCard
-              title="Zyphor OS Server"
-              description="Lean, headless, and optimized for performance. Perfect for hosting, cloud deployments, and homelabs."
-              icon={ServerIcon}
-              version={serverLatest}
-              loading={state === "loading"}
-              url="https://github.com/zyphor-os/zyphor-os-server"
-            />
-            <EditionCard
-              title="Zyphor OS Horizon"
-              description="The experimental edge. Test drive the latest features and next-generation architecture before they reach stable."
-              icon={Layers}
-              version="v1.0.0-beta-2026.06.14-r1"
-              loading={false}
-              url="https://github.com/zyphor-os/zyphor-os-desktop"
-            />
-            <EditionCard
-              title="Zyphor OS Minimal"
-              description="The skeleton codebase. Build your own custom Zyphor-based distribution from the ground up."
-              icon={Code2}
-              version="Rolling Release"
-              loading={false}
-              url="https://github.com/zyphor-os/zyphor-os-minimal"
-            />
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {SOURCEFORGE_PROJECTS.map((project) => (
+              <SourceForgeCard
+                key={project.id}
+                title={project.title}
+                url={project.url}
+                count={downloadCounts[project.slug]}
+              />
+            ))}
           </div>
         </div>
 
@@ -221,48 +270,34 @@ function DownloadPage() {
   );
 }
 
-function EditionCard({
+function SourceForgeCard({
   title,
-  description,
-  icon: Icon,
-  version,
-  loading,
   url,
+  count,
 }: {
   title: string;
-  description: string;
-  icon: React.ElementType;
-  version: string | null;
-  loading: boolean;
   url: string;
+  count: number | null | "error";
 }) {
   return (
-    <div className="card-elevated rounded-2xl p-6 flex flex-col h-full group hover:-translate-y-1 transition-all duration-300">
-      <div className="flex items-start justify-between mb-4">
-        <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand/10 text-brand ring-1 ring-brand/20 group-hover:bg-brand group-hover:text-white transition-colors">
-          <Icon className="h-6 w-6" />
+    <div className="card-elevated rounded-2xl p-6 flex flex-col h-full text-center hover:-translate-y-1 transition-all duration-300">
+      <h3 className="text-xl font-bold mb-3">{title}</h3>
+
+      <div className="my-4 flex-1">
+        <div className="text-3xl font-bold text-foreground">
+          {count === null ? "..." : count === "error" ? "—" : count.toLocaleString()}
         </div>
-
-        {loading ? (
-          <div className="h-6 w-24 bg-surface rounded-full animate-pulse" />
-        ) : version ? (
-          <span className="inline-flex items-center rounded-full bg-surface px-3 py-1 text-xs font-mono font-medium ring-1 ring-border">
-            {version}
-          </span>
-        ) : null}
+        <small className="text-muted-foreground">Downloads</small>
       </div>
-
-      <h3 className="text-xl font-bold mb-2">{title}</h3>
-      <p className="text-sm text-muted-foreground flex-1 mb-6">{description}</p>
 
       <a
         href={url}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         className="btn-brand btn-brand-hover inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold shadow-sm transition-all"
       >
-        View on GitHub
-        <ExternalLink className="h-4 w-4" />
+        <Download className="h-4 w-4" />
+        Download From SourceForge
       </a>
     </div>
   );
