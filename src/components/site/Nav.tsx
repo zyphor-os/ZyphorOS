@@ -7,12 +7,21 @@ import { cn } from "@/lib/utils";
 const links = [
   { to: "/", label: "Home", external: false },
   { to: "/about", label: "About", external: false },
-  { to: "/documentation", label: "Documentation", external: false },
+  { 
+    to: "https://zyphor-os.github.io/docs.html", 
+    label: "Documentation", 
+    external: true 
+  },
   { to: "/gallery", label: "Gallery", external: false },
   { to: "/team", label: "Team", external: false },
   {
     to: "https://white-opossum-308929.hostingersite.com/zyphor-os-wiki/",
     label: "Wiki",
+    external: true,
+  },
+  {
+    to: "https://white-opossum-308929.hostingersite.com/zyphor-os-wiki/index.php/News",
+    label: "News",
     external: true,
   },
 ] as const;
