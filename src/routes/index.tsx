@@ -51,8 +51,8 @@ const features = [
   },
   {
     icon: Layers,
-    title: "Debian / Kali Based",
-    desc: "Built on a proven foundation with access to a massive package ecosystem and security tooling.",
+    title: "Debian",
+    desc: "A stable, secure, and reliable Linux distribution known for its extensive package repository, open-source philosophy, and strong community support.",
   },
   {
     icon: ShieldCheck,
@@ -350,7 +350,7 @@ function HomePage() {
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link
-                to="/documentation"
+                to="https://github.com/zyphor-os/zyphor-os-desktop"
                 className="btn-brand btn-brand-hover inline-flex items-center gap-2 rounded-lg px-8 py-3 text-sm font-semibold"
               >
                 Contribute
