@@ -120,13 +120,13 @@ function AboutPage() {
           <div className="lg:col-span-3">
             <h2 className="text-3xl font-bold tracking-tight">About Zyphor OS</h2>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              Zyphor OS is a modern, learning-oriented Linux distribution built on the
-              Debian and Kali foundations. It exists for people who want to move beyond
-              copy-pasting commands and actually understand the system underneath.
+              Zyphor OS is a community-driven Linux distribution built on a solid Debian foundation, designed to provide a reliable, accessible, and learning-oriented computing experience.
             </p>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              Every default, every command and every tool has been chosen to be
-              transparent, consistent and educational.
+              Our goal is to make Linux more approachable through thoughtfully designed tools, simplified system management, and an independent ecosystem that encourages users to explore, understand, and take control of their systems.
+            </p>
+            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+              Every component reflects our commitment to usability, transparency, consistency, and continuous improvement—building an operating system that serves everyday computing needs while empowering users to learn and grow.
             </p>
           </div>
           <div className="lg:col-span-2">
@@ -170,14 +170,16 @@ function AboutPage() {
           <div className="relative max-w-3xl mx-auto text-center">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Why Zyphor exists?</h2>
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-              Most distributions optimize either for beginners or for experts. Zyphor OS
-              tries to bridge that gap: a system that's approachable enough for a first-time
-              Linux user, but honest enough that the same user is a step closer to expert
-              every time they use it.
+              Zyphor OS exists to make Linux more approachable, understandable, and useful for everyone—from first-time users to experienced enthusiasts.
             </p>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              Zyphor doesn't hide the terminal, and it doesn't hide the concepts. It
-              teaches them, one command at a time.
+              Built on a Debian foundation, Zyphor OS bridges the gap between ease of use and technical understanding by combining practical desktop tools, simplified system management, and an educational approach to computing.
+            </p>
+            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+              We believe an operating system should do more than simply run applications. It should empower users to explore how their system works, understand the tools they use, and develop the confidence to manage their own environment.
+            </p>
+            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+              Zyphor OS doesn't aim to hide the complexity of Linux. It aims to make that complexity easier to understand, one tool, one command, and one discovery at a time.
             </p>
           </div>
         </div>
