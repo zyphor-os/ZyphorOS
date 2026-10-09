@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Zyphor OS is a modern, learning-oriented Linux distribution based on Debian and Kali. Minimal, developer-focused, open source.",
+          "Zyphor OS is a community-driven, Linux-based operating system designed to provide a convenient, reliable, and general-purpose computing environment with integrated productivity tooling.",
       },
       { property: "og:title", content: "Zyphor OS — Learn Linux From The Inside Out" },
       {
@@ -129,13 +129,11 @@ function HomePage() {
                 )}
               </div>
               <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight">
-                Learn Linux from{" "}
-                <span className="text-gradient">the inside out.</span>
+                Zyphor{" "}
+                <span className="text-gradient">Operating System.</span>
               </h1>
               <p className="mt-5 text-lg text-muted-foreground max-w-xl">
-                Zyphor OS is a modern, learning-oriented Linux distribution built on
-                Debian and Kali. Minimal by design, developer-focused, and shaped by an
-                open source community.
+                Zyphor OS is a community-driven, Linux-based operating system designed to provide a convenient, reliable, and general-purpose computing environment with integrated productivity tooling.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
