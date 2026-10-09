@@ -10,8 +10,7 @@ export function Footer() {
           <div className="md:col-span-1">
             <Logo />
             <p className="mt-4 text-sm text-muted-foreground max-w-xs">
-              A modern, learning-oriented Linux distribution. Minimal, developer-focused,
-              and built to help you understand your system from the inside out.
+              Zyphor OS is a community-driven, Linux-based operating system designed to provide a convenient, reliable, and general-purpose computing environment with integrated productivity tooling.
             </p>
           </div>
 
