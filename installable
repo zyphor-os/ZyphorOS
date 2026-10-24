@@ -1,0 +1,2 @@
+git checkout mark
+npm install -D vite-plugin-singlefile --legacy-peer-deps
