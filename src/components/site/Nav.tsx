@@ -20,7 +20,7 @@ const links = [
     external: true,
   },
   {
-    to: "https://white-opossum-308929.hostingersite.com/zyphor-os-wiki/index.php/News",
+    to: "https://zyphor-os.github.io/news/",
     label: "News",
     external: true,
   },
