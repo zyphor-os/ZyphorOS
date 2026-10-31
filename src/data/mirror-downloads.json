@@ -1,0 +1,30 @@
+{
+  "groups": [
+    {
+      "name": "BUZZHEAVIER",
+      "files": [
+        {
+          "filename": "Zyphor OS 2 \"Ada Lovelace\" LTS Reforged",
+          "url": "https://buzzheavier.com/5p0h9fxzm7of"
+        },
+        {
+          "filename": "Zyphor OS 3 \"Bethany\" LTS",
+          "url": "https://buzzheavier.com/rxxkeq7xtwgj"
+        }
+      ]
+    },
+    {
+      "name": "Google Drive",
+      "files": [
+        {
+          "filename": "Zyphor OS 2 \"Ada Lovelace\" LTS Reforged",
+          "url": "https://drive.google.com/uc?export=download&id=1ldE5ct0Wrk6Lan5laHyRnCgvCzqF2Qh5"
+        },
+        {
+          "filename": "Zyphor OS 3 \"Bethany\" LTS",
+          "url": "https://drive.google.com/uc?export=download&id=1vO8Y-pMPIxe2WUV1o6k8Hi9YOPesSR5H"
+        }
+      ]
+    }
+  ]
+}
