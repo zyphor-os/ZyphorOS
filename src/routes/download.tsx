@@ -14,11 +14,13 @@ import {
   Layers,
   ExternalLink,
   Code2,
+  Globe,
 } from "lucide-react";
 import { SiteLayout, PageHeader } from "@/components/site/SiteLayout";
 import { cn } from "@/lib/utils";
 import { useZyphorDownloads } from "@/lib/useZyphorDownloads";
 import { useScrollReveal } from "@/lib/useScrollReveal";
+import mirrorData from "@/data/mirror-downloads.json";
 
 interface SourceForgeProject {
   id: string;
@@ -26,6 +28,18 @@ interface SourceForgeProject {
   title: string;
   url: string;
 }
+
+interface MirrorFile {
+  filename: string;
+  url: string;
+}
+
+interface MirrorGroup {
+  name: string;
+  files: MirrorFile[];
+}
+
+const MIRROR_GROUPS = (mirrorData.groups ?? []) as MirrorGroup[];
 
 const SOURCEFORGE_PROJECTS: SourceForgeProject[] = [
   {
@@ -152,6 +166,42 @@ function DownloadPage() {
             ))}
           </div>
         </div>
+
+        {MIRROR_GROUPS.length > 0 && (
+          <div id="mirrors" className="reveal">
+            <div className="flex items-center gap-3 mb-8">
+              <Globe className="h-6 w-6 text-brand" />
+              <h2 className="text-3xl font-bold">Mirror downloads</h2>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {MIRROR_GROUPS.map((group) => (
+                <div
+                  key={group.name}
+                  className="card-elevated rounded-2xl p-6 flex flex-col h-full"
+                >
+                  <h3 className="text-xl font-bold mb-4">{group.name}</h3>
+
+                  <ul className="flex-1 space-y-3">
+                    {group.files.map((file) => (
+                      <li key={file.url}>
+                        <a
+                          href={file.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-background/50 px-4 py-3 hover:bg-surface transition"
+                        >
+                          <span className="font-mono text-sm break-all">{file.filename}</span>
+                          <Download className="h-4 w-4 shrink-0 text-brand" />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="grid gap-5 lg:grid-cols-2 reveal">
           <ReqCard
