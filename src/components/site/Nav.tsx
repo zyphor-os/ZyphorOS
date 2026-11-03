@@ -15,7 +15,7 @@ const links = [
   { to: "/gallery", label: "Gallery", external: false },
   { to: "/team", label: "Team", external: false },
   {
-    to: "https://white-opossum-308929.hostingersite.com/zyphor-os-wiki/",
+    to: "https://github.com/zyphor-os/zyphor-os-desktop/wiki",
     label: "Wiki",
     external: true,
   },
