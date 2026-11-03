@@ -45,20 +45,26 @@ const SOURCEFORGE_PROJECTS: SourceForgeProject[] = [
   {
     id: "project-1",
     slug: "zyphor-os-1-legacy",
-    title: "Zyphor OS 1 Legacy (End Of Life)",
+    title: "Zyphor OS 1 Legacy (End Of Life) XFCE",
     url: "https://sourceforge.net/projects/zyphor-os-1-legacy",
   },
   {
     id: "project-2",
     slug: "zyphor-os-2-ada-lovelace",
-    title: 'Zyphor OS 2 "Ada Lovelace" LTS Reforged',
+    title: 'Zyphor OS 2 "Ada Lovelace" LTS Reforged XFCE',
     url: "https://sourceforge.net/projects/zyphor-os-2-ada-lovelace/",
   },
   {
     id: "project-3",
     slug: "zyphor-os-3-bethany-lts",
-    title: 'Zyphor OS 3 "Bethany" LTS',
+    title: 'Zyphor OS 3 "Bethany" LTS XFCE',
     url: "https://sourceforge.net/projects/zyphor-os-3-bethany-lts/",
+  },
+  {
+    id: "project-4",
+    slug: "zyphor-os-3-bethany-lts-gnome",
+    title: 'Zyphor OS 3 "Bethany" LTS GNOME',
+    url: "https://sourceforge.net/projects/zyphor-os-3-bethany-lts-gnome/",
   },
 ];
 

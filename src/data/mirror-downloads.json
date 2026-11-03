@@ -4,12 +4,16 @@
       "name": "BUZZHEAVIER",
       "files": [
         {
-          "filename": "Zyphor OS 2 \"Ada Lovelace\" LTS Reforged",
+          "filename": "Zyphor OS 2 \"Ada Lovelace\" LTS Reforged XFCE",
           "url": "https://buzzheavier.com/5p0h9fxzm7of"
         },
         {
-          "filename": "Zyphor OS 3 \"Bethany\" LTS",
+          "filename": "Zyphor OS 3 \"Bethany\" LTS XFCE",
           "url": "https://buzzheavier.com/rxxkeq7xtwgj"
+        },
+        {
+          "filename": "Zyphor OS 3 \"Bethany\" LTS GNOME",
+          "url": "https://buzzheavier.com/s5moi80wc6i0"
         }
       ]
     },
@@ -17,12 +21,16 @@
       "name": "Google Drive",
       "files": [
         {
-          "filename": "Zyphor OS 2 \"Ada Lovelace\" LTS Reforged",
+          "filename": "Zyphor OS 2 \"Ada Lovelace\" LTS Reforged XFCE",
           "url": "https://drive.google.com/uc?export=download&id=1ldE5ct0Wrk6Lan5laHyRnCgvCzqF2Qh5"
         },
         {
-          "filename": "Zyphor OS 3 \"Bethany\" LTS",
+          "filename": "Zyphor OS 3 \"Bethany\" LTS XFCE",
           "url": "https://drive.google.com/uc?export=download&id=1vO8Y-pMPIxe2WUV1o6k8Hi9YOPesSR5H"
+        },
+        {
+          "filename": "Zyphor OS 3 \"Bethany\" LTS GNOME",
+          "url": "https://drive.google.com/uc?export=download&id=12h_oVDc38AbPt0iVikGYy3p96yeNRnCN"
         }
       ]
     }
