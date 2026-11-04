@@ -66,6 +66,12 @@ const SOURCEFORGE_PROJECTS: SourceForgeProject[] = [
     title: 'Zyphor OS 3 "Bethany" LTS GNOME',
     url: "https://sourceforge.net/projects/zyphor-os-3-bethany-lts-gnome/",
   },
+  {
+    id: "project-5",
+    slug: "zyphor-os-3-bethany-lts-kde",
+    title: 'Zyphor OS 3 "Bethany" LTS KDE Plasma',
+    url: "https://sourceforge.net/projects/zyphor-os-3-bethany-lts-kde/",
+  },
 ];
 
 const START_DATE = "2026-03-30";
