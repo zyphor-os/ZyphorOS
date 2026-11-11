@@ -40,6 +40,14 @@ interface MirrorGroup {
   files: MirrorFile[];
 }
 
+type CountryStat = { country: string; downloads: number };
+
+type WorldState = {
+  status: "loading" | "ready" | "error";
+  countries: CountryStat[];
+  projectsCounted: number;
+};
+
 const MIRROR_GROUPS = (mirrorData.groups ?? []) as MirrorGroup[];
 
 const ISSUES_URL = "https://github.com/zyphor-os/zyphor-os-desktop/issues";
@@ -77,7 +85,8 @@ const SOURCEFORGE_PROJECTS: SourceForgeProject[] = [
   },
 ];
 
-const START_DATE = "2026-03-30";
+const START_DATE = "2026--30";
+const COUNTRY_START_DATE = "2026-10-01";
 
 async function fetchTotal(slug: string): Promise<number> {
   const endDate = new Date().toISOString().split("T")[0];
@@ -121,6 +130,77 @@ function useSourceForgeDownloads() {
   return counts;
 }
 
+async function fetchCountries(slug: string): Promise<[string, number][]> {
+  const endDate = new Date().toISOString().split("T")[0];
+  const apiUrl =
+    `https://sourceforge.net/projects/${slug}/files/stats/json` +
+    `?start_date=${COUNTRY_START_DATE}&end_date=${endDate}`;
+
+  const response = await fetch(apiUrl);
+  if (!response.ok) throw new Error("SourceForge API request failed");
+  const data = await response.json();
+
+  if (!Array.isArray(data.countries)) return [];
+  return data.countries.map((item: unknown[]) => [
+    String(item[0]),
+    Number(item[1]) || 0,
+  ]);
+}
+
+/** Merges country download stats across ALL SourceForge projects. */
+function useSourceForgeCountries(): WorldState {
+  const [state, setState] = useState<WorldState>({
+    status: "loading",
+    countries: [],
+    projectsCounted: 0,
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    Promise.allSettled(SOURCEFORGE_PROJECTS.map((p) => fetchCountries(p.slug))).then(
+      (results) => {
+        if (cancelled) return;
+
+        const totals = new Map<string, number>();
+        let succeeded = 0;
+
+        results.forEach((r, i) => {
+          if (r.status === "fulfilled") {
+            succeeded++;
+            r.value.forEach(([country, n]) =>
+              totals.set(country, (totals.get(country) ?? 0) + n),
+            );
+          } else {
+            console.error(
+              `Unable to load country stats for ${SOURCEFORGE_PROJECTS[i].slug}:`,
+              r.reason,
+            );
+          }
+        });
+
+        if (succeeded === 0) {
+          setState({ status: "error", countries: [], projectsCounted: 0 });
+          return;
+        }
+
+        const countries = [...totals.entries()]
+          .map(([country, downloads]) => ({ country, downloads }))
+          .filter((c) => c.downloads > 0)
+          .sort((a, b) => b.downloads - a.downloads);
+
+        setState({ status: "ready", countries, projectsCounted: succeeded });
+      },
+    );
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return state;
+}
+
 export const Route = createFileRoute("/download")({
   head: () => ({
     meta: [
@@ -138,6 +218,7 @@ export const Route = createFileRoute("/download")({
 function DownloadPage() {
   const { state } = useZyphorDownloads();
   const downloadCounts = useSourceForgeDownloads();
+  const worldStats = useSourceForgeCountries();
   useScrollReveal();
 
   return (
@@ -193,6 +274,12 @@ function DownloadPage() {
             </a>
           </div>
         </div>
+
+        <WorldDownloads
+          status={worldStats.status}
+          countries={worldStats.countries}
+          projectsCounted={worldStats.projectsCounted}
+        />
 
         {MIRROR_GROUPS.length > 0 && (
           <div id="mirrors" className="reveal">
@@ -305,6 +392,99 @@ function SourceForgeCard({
         <Download className="h-4 w-4" />
         Download From SourceForge
       </a>
+    </div>
+  );
+}
+
+function WorldDownloads({
+  status,
+  countries,
+  projectsCounted,
+}: {
+  status: "loading" | "ready" | "error";
+  countries: CountryStat[];
+  projectsCounted: number;
+}) {
+  const [showAll, setShowAll] = useState(false);
+
+  const total = countries.reduce((sum, c) => sum + c.downloads, 0);
+  const max = countries[0]?.downloads ?? 1;
+  const visible = showAll ? countries : countries.slice(0, 10);
+
+  return (
+    <div id="worldwide" className="reveal">
+      <div className="flex items-center gap-3 mb-8">
+        <Globe className="h-6 w-6 text-brand" />
+        <h2 className="text-3xl font-bold">Downloads from any part of the world</h2>
+      </div>
+
+      {status === "loading" && (
+        <div className="card-elevated rounded-2xl p-8 flex items-center justify-center gap-3 text-muted-foreground">
+          <Loader2 className="h-5 w-5 animate-spin" />
+          <span className="text-sm">Loading worldwide statistics…</span>
+        </div>
+      )}
+
+      {status === "error" && (
+        <StatusBanner
+          icon={AlertCircle}
+          variant="warn"
+          message="Could not load worldwide download statistics from SourceForge. Refresh to try again."
+        />
+      )}
+
+      {status === "ready" && (
+        <div className="card-elevated rounded-2xl p-6 sm:p-8">
+          <div className="grid gap-6 sm:grid-cols-3 mb-8 text-center">
+            <div>
+              <div className="text-3xl font-bold">{countries.length.toLocaleString()}</div>
+              <small className="text-muted-foreground">Countries & regions</small>
+            </div>
+            <div>
+              <div className="text-3xl font-bold">{total.toLocaleString()}</div>
+              <small className="text-muted-foreground">
+                Total downloads (since Oct. 1, 2026)
+              </small>
+            </div>
+            <div>
+              <div className="text-3xl font-bold">
+                {projectsCounted}/{SOURCEFORGE_PROJECTS.length}
+              </div>
+              <small className="text-muted-foreground">Projects counted</small>
+            </div>
+          </div>
+
+          <ul className="space-y-3">
+            {visible.map((c, i) => (
+              <li key={c.country} className="flex items-center gap-3">
+                <span className="w-6 text-right text-xs text-muted-foreground">{i + 1}</span>
+                <span className="w-40 sm:w-52 truncate text-sm font-medium">{c.country}</span>
+                <div className="flex-1 h-2 rounded-full bg-brand/10 overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-brand transition-all duration-700"
+                    style={{ width: `${(c.downloads / max) * 100}%` }}
+                  />
+                </div>
+                <span className="w-16 text-right text-sm tabular-nums text-muted-foreground">
+                  {c.downloads.toLocaleString()}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          {countries.length > 10 && (
+            <div className="mt-6 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setShowAll((v) => !v)}
+                className="btn-brand btn-brand-hover inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all"
+              >
+                {showAll ? "Show top 10" : `Show all ${countries.length} countries`}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
