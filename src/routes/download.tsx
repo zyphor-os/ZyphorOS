@@ -15,6 +15,7 @@ import {
   ExternalLink,
   Code2,
   Globe,
+  Bug,
 } from "lucide-react";
 import { SiteLayout, PageHeader } from "@/components/site/SiteLayout";
 import { cn } from "@/lib/utils";
@@ -40,6 +41,8 @@ interface MirrorGroup {
 }
 
 const MIRROR_GROUPS = (mirrorData.groups ?? []) as MirrorGroup[];
+
+const ISSUES_URL = "https://github.com/zyphor-os/zyphor-os-desktop/issues";
 
 const SOURCEFORGE_PROJECTS: SourceForgeProject[] = [
   {
@@ -176,6 +179,18 @@ function DownloadPage() {
                 count={downloadCounts[project.slug]}
               />
             ))}
+          </div>
+
+          <div className="mt-8 flex justify-center">
+            <a
+              href={ISSUES_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-brand btn-brand-hover inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold shadow-sm transition-all"
+            >
+              <Bug className="h-4 w-4" />
+              Report Bugs & Issues Here
+            </a>
           </div>
         </div>
 
