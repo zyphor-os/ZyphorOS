@@ -20,7 +20,7 @@ const links = [
     external: true,
   },
   {
-    to: "https://zyphor-os.github.io/news/",
+    to: "https://github.com/zyphor-os/zyphor-os-desktop/wiki/News-from-October-31,-2026-%E2%80%90-Present",
     label: "News",
     external: true,
   },
