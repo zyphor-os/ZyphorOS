@@ -133,7 +133,7 @@ export const Route = createFileRoute("/download")({
 });
 
 function DownloadPage() {
-  const { adaTags, legacyTags, state } = useZyphorDownloads();
+  const { state } = useZyphorDownloads();
   const downloadCounts = useSourceForgeDownloads();
   useScrollReveal();
 
@@ -255,77 +255,6 @@ function DownloadPage() {
               </li>
             ))}
           </ol>
-        </div>
-
-        <div id="archives" className="reveal">
-          <div className="flex items-center gap-3 mb-8">
-            <Package className="h-6 w-6 text-brand" />
-            <h2 className="text-3xl font-bold">Release Archives</h2>
-          </div>
-
-          <div className="grid gap-8 lg:grid-cols-2">
-            <div className="card-elevated rounded-2xl p-6 flex flex-col">
-              <h3 className="text-xl font-semibold mb-2">New Source (Ada Lovelace LTS)</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                The modern Zyphor OS codebase. Long-term support releases carrying the Ada Lovelace codename.
-              </p>
-
-              <div className="flex-1 bg-background/50 rounded-xl border border-border/60 overflow-hidden flex flex-col">
-                {state === "loading" ? (
-                  <div className="p-8 flex justify-center"><Loader2 className="h-6 w-6 animate-spin text-brand" /></div>
-                ) : adaTags.length === 0 ? (
-                  <div className="p-8 text-center text-sm text-muted-foreground">No releases found.</div>
-                ) : (
-                  <ul className="divide-y divide-border/60 max-h-[400px] overflow-y-auto">
-                    {adaTags.map(tag => (
-                      <li key={tag}>
-                        <a
-                          href={`https://github.com/zyphor-os/zyphor-os-desktop/releases/tag/${tag}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="flex items-center justify-between p-4 hover:bg-surface transition group"
-                        >
-                          <span className="font-mono text-sm font-medium">{tag}</span>
-                          <ExternalLink className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-
-            <div className="card-elevated rounded-2xl p-6 flex flex-col">
-              <h3 className="text-xl font-semibold mb-2">Legacy Codebase</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                The original stable releases from the legacy repository. Maintained for archival purposes.
-              </p>
-
-              <div className="flex-1 bg-background/50 rounded-xl border border-border/60 overflow-hidden flex flex-col">
-                {state === "loading" ? (
-                  <div className="p-8 flex justify-center"><Loader2 className="h-6 w-6 animate-spin text-brand" /></div>
-                ) : legacyTags.length === 0 ? (
-                  <div className="p-8 text-center text-sm text-muted-foreground">No releases found.</div>
-                ) : (
-                  <ul className="divide-y divide-border/60 max-h-[400px] overflow-y-auto">
-                    {legacyTags.map(tag => (
-                      <li key={tag}>
-                        <a
-                          href={`https://github.com/markjasonespelita/zyphor_os/releases/tag/${tag}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="flex items-center justify-between p-4 hover:bg-surface transition group"
-                        >
-                          <span className="font-mono text-sm font-medium">{tag}</span>
-                          <ExternalLink className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-          </div>
         </div>
       </section>
     </SiteLayout>
