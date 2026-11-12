@@ -85,7 +85,7 @@ const SOURCEFORGE_PROJECTS: SourceForgeProject[] = [
   },
 ];
 
-const START_DATE = "2026--30";
+const START_DATE = "2026-01-30";
 const COUNTRY_START_DATE = "2026-10-01";
 
 async function fetchTotal(slug: string): Promise<number> {
