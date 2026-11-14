@@ -1,40 +1,23 @@
 {
   "groups": [
     {
-      "name": "BUZZHEAVIER",
-      "files": [
-        {
-          "filename": "Zyphor OS 2 \"Ada Lovelace\" LTS Reforged XFCE",
-          "url": "https://buzzheavier.com/5p0h9fxzm7of"
-        },
-        {
-          "filename": "Zyphor OS 3 \"Bethany\" LTS XFCE",
-          "url": "https://buzzheavier.com/rxxkeq7xtwgj"
-        },
-        {
-          "filename": "Zyphor OS 3 \"Bethany\" LTS GNOME",
-          "url": "https://buzzheavier.com/s5moi80wc6i0"
-        }
-      ]
-    },
-    {
       "name": "Google Drive",
       "files": [
         {
           "filename": "Zyphor OS 2 \"Ada Lovelace\" LTS Reforged XFCE",
-          "url": "https://drive.google.com/uc?export=download&id=1ldE5ct0Wrk6Lan5laHyRnCgvCzqF2Qh5"
+          "url": "https://zyphor-os.github.io/iso-not-available.html"
         },
         {
           "filename": "Zyphor OS 3 \"Bethany\" LTS XFCE",
-          "url": "https://drive.google.com/uc?export=download&id=16-hCuMtjequhYRKiWnqYFUqGQ-u4hoKQ"
+          "url": "https://zyphor-os.github.io/iso-not-available.html"
         },
         {
           "filename": "Zyphor OS 3 \"Bethany\" LTS GNOME",
-          "url": "https://drive.google.com/uc?export=download&id=1ICovW-LLcOm7h2_iBB7ryF4K7lN1LwoZ"
+          "url": "https://zyphor-os.github.io/iso-not-available.html"
         },
         {
           "filename": "Zyphor OS 3 \"Bethany\" LTS KDE Plasma",
-          "url": "https://drive.google.com/uc?export=download&id=1T_JABgPKRCcXY1PY-HvPPdOJE7bf0h-s"
+          "url": "https://zyphor-os.github.io/iso-not-available.html"
         }
       ]
     }
